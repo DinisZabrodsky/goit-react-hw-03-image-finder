@@ -14,6 +14,7 @@ export class ImageGallery extends Component {
         page: 1,
         new: true,
         load: false,
+        error: false
     }
 
 componentDidUpdate = (prevProps, prevState) => {
@@ -43,7 +44,7 @@ componentDidUpdate = (prevProps, prevState) => {
                 }
 
                 
-            }).catch(console.log("error"))
+            }).catch(() => this.setState({error: true}))
                 .finally(()=>{
                     return setTimeout(() => {
                             this.setState({load: false})

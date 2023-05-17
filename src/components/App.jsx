@@ -2,16 +2,24 @@ import { Component } from 'react'
 
 import {Searchbar} from "./Searchbar/Searchbar";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
+import { Modal } from "./Modal/Modal";
 
 
 
 export class App extends Component {
   state = {
     search: "",
+    modal: false,
+    imageModal: "",
+    tagModal: "",
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
-    
+  openModal = (imageModal, tagModal) => {
+    this.setState({modal: true, imageModal, tagModal})
+  } 
+
+  closeModal = () => {
+    this.setState({modal: false})
   }
   
   searchQuery = (value) => {
@@ -23,8 +31,10 @@ export class App extends Component {
 
   render(){  
     return <>
+      {this.state.modal && <Modal imageModal={this.state.imageModal} tagModal={this.state.tagModal} closeModal={this.closeModal}/>}
+
       <Searchbar search={this.searchQuery}/>
-      <ImageGallery search={this.state.search}/>
+      <ImageGallery search={this.state.search} openModal={this.openModal}/>
       </>}
 
 };

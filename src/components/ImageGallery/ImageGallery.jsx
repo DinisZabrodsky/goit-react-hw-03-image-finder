@@ -42,7 +42,15 @@ componentDidUpdate = (prevProps, prevState) => {
                 }
 
                 
-            }).catch(console.log("error")).finally(this.setState({load: false}))
+            }).catch(console.log("error"))
+                .finally(()=>{
+                    return setTimeout(() => {
+                            this.setState({load: false})
+                        }, 500);
+                    
+                })
+
+            // .finally(this.setState({load: false}))
             
                 
         }  
@@ -80,18 +88,19 @@ componentDidUpdate = (prevProps, prevState) => {
 
 
     render() {
+        if(this.state.load) {
+            return <Loader />
+        }
+
         return <>
-            {this.state.load ? <Loader /> : <>
                 <ul className={IGCss.ImageGallery}>
-                    {this.state.imageBase.map(({id, webformatURL, tags}) => {
-                        return <ImageGalleryItem key={id} webformatURL={webformatURL} tags={tags}/>
+                    {this.state.imageBase.map(({id, webformatURL, tags, largeImageURL}) => {
+                        return <ImageGalleryItem key={id} webformatURL={webformatURL} tags={tags} imageForModal={largeImageURL} openModal={this.props.openModal}/>
                     })}
                 </ul>
 
                 { this.state.imageBase.length > 0 && this.state.imageBase.length < this.state.total && <Button addMore={this.addMore}/>} 
-            
-            
-            </>}
+
              
       </>}
 }

@@ -22,6 +22,10 @@ componentDidUpdate = (prevProps, prevState) => {
             return getImage({query: this.props.search, page: this.state.page})
             .then(response =>{
 
+                if(response.total === 0) {
+                    alert(`Нажаль за запитом "${this.props.search}" нічого не знайдено`)
+                }
+
                 if (prevProps.search !== this.props.search) {
                     return this.setState({
                         page: 1,

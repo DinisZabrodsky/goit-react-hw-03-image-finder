@@ -3,6 +3,7 @@ import {getImage} from '../../api/getImage'
 import {ImageGalleryItem} from '../ImageGalleryItem/ImageGalleryItem'
 import {Button} from '../Button/Button'
 import {Loader} from '../Loader/Loader'
+import PropTypes from 'prop-types';
 
 import IGCss from './ImageGallery.module.css'
 
@@ -46,7 +47,7 @@ componentDidUpdate = (prevProps, prevState) => {
                 .finally(()=>{
                     return setTimeout(() => {
                             this.setState({load: false})
-                        }, 500);
+                        }, 250);
                     
                 })
 
@@ -103,4 +104,9 @@ componentDidUpdate = (prevProps, prevState) => {
 
              
       </>}
+}
+
+ImageGallery.propTypes = {
+    search: PropTypes.string.isRequired,
+    openModal:PropTypes.func.isRequired,
 }

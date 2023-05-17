@@ -1,4 +1,5 @@
-import { Component } from 'react'
+import { Component } from 'react';
+
 
 import {Searchbar} from "./Searchbar/Searchbar";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
@@ -35,6 +36,10 @@ export class App extends Component {
 
       <Searchbar search={this.searchQuery}/>
       <ImageGallery search={this.state.search} openModal={this.openModal}/>
+      {this.state.search === "" && <h2 style={{alignItems: 'center', textAlign: 'center'}}>Ведіть будьласка запит</h2>}
+
       </>}
 
 };
+
+

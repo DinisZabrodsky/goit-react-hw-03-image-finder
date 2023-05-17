@@ -9,24 +9,66 @@ export class ImageGallery extends Component {
     state = {
         imageBase: [],
         total: 0,
-        page: "2",
+        page: 1,
+        new: true,
+        load: false,
     }
 
 componentDidUpdate = (prevProps, prevState) => {
 
-    if (prevProps.search !== this.props.search || prevState.page !== this.state.page) {
-        getImage({query: this.props.search, page: this.state.page})
-        .then(response => {
-            this.setState({imageBase: response.hits})
-            this.setState({total: response.total})
-            console.log(response)
-        })
-        .catch(console.log("error"))
+        if (prevProps.search !== this.props.search || prevState.page !== this.state.page) {
+            this.setState({load: true})
+
+            return getImage({query: this.props.search, page: this.state.page})
+            .then(response =>{
+
+                if (prevProps.search !== this.props.search) {
+                    return this.setState({
+                        page: 1,
+                        total: response.total,
+                        imageBase: response.hits,
+                        new: true,
+                    }) 
+                }
+
+                if(prevState.page !== this.state.page && !this.state.new) {
+                    return this.setState({imageBase: [...prevState.imageBase, ...response.hits] })
+                }
+
+                
+            }).catch(console.log("error")).finally(this.setState({load: false}))
+        }  
+
+        // if (prevProps.search !== this.props.search) {
+        //     this.setState({load: true})
+        //     return getImage({query: this.props.search, page: 1})
+        //     .then(response =>{
+        //         return this.setState({
+        //                         page: 1,
+        //                         total: response.total,
+        //                         imageBase: response.hits,
+        //                         new: true,
+        //                     }) 
+        //     }).catch(console.log("error")).finally(this.setState({load: false}))
+        // }  
+        
+        // if(prevState.page !== this.state.page && !this.state.new) {
+        //     this.setState({load: true})
+        //     return getImage({query: this.props.search, page: this.state.page})
+        //     .then(response =>{
+        //         return this.setState({imageBase: [...prevState.imageBase, ...response.hits] })
+        //     }).catch(console.log("error")).finally(this.setState({load: false}))
+        // }
+
+    
+}   
+
+    addMore = () => {
+        this.setState( prev =>{return {
+            page: prev.page + 1,
+            new: false
+            }})
     }
-
-}
-
-
 
 
     render() {
@@ -37,6 +79,7 @@ componentDidUpdate = (prevProps, prevState) => {
             })}
       </ul>
 
-      <Button />
+       { this.state.imageBase.length > 0 && this.state.imageBase.length < this.state.total && <Button addMore={this.addMore}/>} 
+      
       </>}
 }

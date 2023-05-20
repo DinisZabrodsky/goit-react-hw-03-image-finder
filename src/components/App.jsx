@@ -25,6 +25,10 @@ export class App extends Component {
 
   componentDidUpdate = (prevProps, prevState) => {
 
+        if (prevState.search === this.state.search) {
+          alert(`Ви ввели запит "${this.state.search}" повторно`)
+        }
+
         if (prevState.search !== this.state.search || prevState.page !== this.state.page) {
             this.setState({load: true})
 

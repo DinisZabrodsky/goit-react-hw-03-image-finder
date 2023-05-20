@@ -11,11 +11,9 @@ export class ImageGallery extends Component {
     state = {}
 
     render() {
-        if(this.props.load) {
-            return <Loader />
-        }
 
         return <>
+                { this.props.load && <Loader />}
                 <ul className={IGCss.ImageGallery}>
                     {this.props.imageBase.map(({id, webformatURL, tags, largeImageURL}) => {
                         return <ImageGalleryItem key={id} webformatURL={webformatURL} tags={tags} imageForModal={largeImageURL} openModal={this.props.openModal}/>
@@ -23,7 +21,7 @@ export class ImageGallery extends Component {
                 </ul>
 
                 { this.props.imageBase.length > 0 && this.props.imageBase.length < this.props.total && <Button addMore={this.props.addMore}/>} 
-
+                
              
       </>}
 }

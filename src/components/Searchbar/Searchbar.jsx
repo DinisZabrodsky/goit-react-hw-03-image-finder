@@ -5,6 +5,7 @@ import SearchCSS from './Searchbar.module.css'
 export class Searchbar extends Component {
     state = {
         inputValue: "",
+        prevInputValue: "запит",
     }
 
     inputChange = ({target: {value}}) => {
@@ -19,6 +20,12 @@ export class Searchbar extends Component {
             return
         }
 
+        if(this.state.prevInputValue === this.state.inputValue){
+          alert(`Ви ввели запит "${this.state.prevInputValue}" повторно`)
+          return
+        }
+
+        this.setState({prevInputValue: value})
         this.props.search(this.state.inputValue)
 
     }
